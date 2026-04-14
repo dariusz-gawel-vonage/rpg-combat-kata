@@ -5,10 +5,12 @@ namespace RPGKataLogic.Logic;
 public class CharactersInteractionsService
 {
     private IMapService _mapService;
+    private IFactionService _factionService;
 
-    public CharactersInteractionsService(IMapService mapService)
+    public CharactersInteractionsService(IMapService mapService, IFactionService factionService)
     {
         _mapService = mapService;
+        _factionService = factionService;
     }
 
     public void Damage(Fighter attacker, Fighter target, int damage)
@@ -31,8 +33,11 @@ public class CharactersInteractionsService
         }
     }
 
-    public static void Heal(Character healer, Character target, int healAmount)
+    public void Heal(Character healer, Character target, int healAmount)
     {
+        if (CanHeal(healer, target))
+            return;
+
         if (target.LiveState == LiveState.Dead || 
             healer != target)
             return;
@@ -60,7 +65,7 @@ public class CharactersInteractionsService
         return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
     }
 
-    private static bool IsDamagePossible(Fighter attacker, Fighter target, double distance)
+    private bool IsDamagePossible(Fighter attacker, Fighter target, double distance)
     {
         if (target.LiveState == LiveState.Dead)
             return false;
@@ -69,6 +74,23 @@ public class CharactersInteractionsService
             return false;
         
         if(distance > attacker.GetAttackRange())
+            return false;
+
+        if (_factionService.AreAllies(attacker, target))
+            return false;
+
+        return true;
+    }
+
+    private bool CanHeal(Character healer, Character target)
+    {
+        if (target.LiveState == LiveState.Dead)
+            return false;
+
+        if (_factionService.AreAllies(healer, target) == false)
+            return false;
+
+        if (healer != target)
             return false;
 
         return true;
