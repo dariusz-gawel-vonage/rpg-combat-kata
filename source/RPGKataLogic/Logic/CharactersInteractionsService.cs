@@ -17,7 +17,7 @@ public class CharactersInteractionsService
     {
         var distance = CalculateDistance(attacker, target);
 
-        if (IsDamagePossible(attacker, target, distance))
+        if (CanDamage(attacker, target, distance))
             return;
 
         damage = CalculateFinalDamage(attacker, target, damage);
@@ -65,7 +65,7 @@ public class CharactersInteractionsService
         return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
     }
 
-    private bool IsDamagePossible(Fighter attacker, Fighter target, double distance)
+    private bool CanDamage(Fighter attacker, Fighter target, double distance)
     {
         if (target.LiveState == LiveState.Dead)
             return false;
