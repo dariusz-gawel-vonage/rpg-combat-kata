@@ -2,18 +2,18 @@
 
 namespace RPGKataLogic.Logic;
 
-public class CharactersInteractionsService
+public class CombatService
 {
     private IMapService _mapService;
     private IFactionService _factionService;
 
-    public CharactersInteractionsService(IMapService mapService, IFactionService factionService)
+    public CombatService(IMapService mapService, IFactionService factionService)
     {
         _mapService = mapService;
         _factionService = factionService;
     }
 
-    public void Damage(Fighter attacker, Fighter target, int damage)
+    public void Damage(Fighter attacker, Character target, int damage)
     {
         var distance = CalculateDistance(attacker, target);
 
@@ -54,7 +54,7 @@ public class CharactersInteractionsService
         return damage;
     }
 
-    private double CalculateDistance(Fighter attacker, Fighter target)
+    private double CalculateDistance(Character attacker, Character target)
     {
         var attackerDistance = _mapService.GetCharacterLocation(attacker);
         var targetDistance = _mapService.GetCharacterLocation(target);
@@ -65,7 +65,7 @@ public class CharactersInteractionsService
         return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
     }
 
-    private bool CanDamage(Fighter attacker, Fighter target, double distance)
+    private bool CanDamage(Fighter attacker, Character target, double distance)
     {
         if (target.LiveState == LiveState.Dead)
             return false;
