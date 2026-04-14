@@ -2,12 +2,20 @@
 
 namespace RPGKataLogic.Logic;
 
-public static class CharactersInteractionsService
+public class CharactersInteractionsService
 {
-    public static void Damage(Character attacker, Character target, int damage)
+    private IMapService _mapService;
+
+    public CharactersInteractionsService(IMapService mapService)
     {
-        if (target.LiveState == LiveState.Dead ||
-            attacker == target)
+        _mapService = mapService;
+    }
+
+    public void Damage(Fighter attacker, Fighter target, int damage)
+    {
+        var distance = CalculateDistance(attacker, target);
+
+        if (IsDamagePossible(attacker, target, distance))
             return;
 
         damage = CalculateFinalDamage(attacker, target, damage);
@@ -39,5 +47,30 @@ public static class CharactersInteractionsService
         else if (target.Level >= attacker.Level - 5)
             damage = (int)(damage * 1.5);
         return damage;
+    }
+
+    private double CalculateDistance(Fighter attacker, Fighter target)
+    {
+        var attackerDistance = _mapService.GetCharacterLocation(attacker);
+        var targetDistance = _mapService.GetCharacterLocation(target);
+
+        if(attackerDistance == null || targetDistance == null)
+            throw new Exception("Both characters must be on the map to calculate distance.");
+
+        return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
+    }
+
+    private static bool IsDamagePossible(Fighter attacker, Fighter target, double distance)
+    {
+        if (target.LiveState == LiveState.Dead)
+            return false;
+
+        if (attacker == target)
+            return false;
+        
+        if(distance > attacker.GetAttackRange())
+            return false;
+
+        return true;
     }
 }
