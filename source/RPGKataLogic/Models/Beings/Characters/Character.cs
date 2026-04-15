@@ -32,10 +32,7 @@ public class Character : Being
     public void GainExperience(int experience)
     {
         Experience += experience;
-        while (Experience % 1000 == 0)
-        {
-            Level++;
-        }
+        Level = (int)Math.Sqrt(Experience / 1000);
     }
 
     public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Health}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}";

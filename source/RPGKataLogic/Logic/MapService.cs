@@ -35,19 +35,26 @@ public class MapService : IMapService
 
         _beingsLocationLookup[being] = desiredGround;
         _map[desiredGround.X, desiredGround.Y].Beings.Add(being);
-
     }
 
     public void RemoveBeingFromMap(Being being)
     {
         _beingsLocationLookup.TryGetValue(being, out var ground);
-        if (ground == null || ground.Beings.Contains(being) == false)
+        if (ground == null || ground.Beings?.Contains(being) == false)
             throw new InvalidOperationException("There was no character at the map, while trying to remove it.");
 
         _beingsLocationLookup[being].Beings.Remove(being);
         _beingsLocationLookup.Remove(being);
 
         _map[ground.X, ground.Y].Beings.Remove(being);
+    }
+
+    public Ground? GetGround(int x, int y)
+    {
+        if (x < 0 || x >= _width || y < 0 || y >= _height)
+            throw new ArgumentOutOfRangeException("Coordinates are outside the map boundaries.");
+
+        return _map[x, y];
     }
 
     public Ground? GetBeingLocation(Being being)
@@ -62,6 +69,7 @@ public class MapService : IMapService
     {
         var random = new Random();
         var currentGround = GetBeingLocation(being);
+
         switch(random.Next(4))
         {
             case 0: // Move up

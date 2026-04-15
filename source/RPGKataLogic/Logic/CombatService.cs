@@ -62,6 +62,9 @@ public class CombatService : ICombatService
 
     private bool CanDamage(Fighter attacker, Being target, double distance)
     {
+        if (attacker.IsOver() || target.IsOver())
+            return false;
+
         if (target.IsOver())
             return false;
 
