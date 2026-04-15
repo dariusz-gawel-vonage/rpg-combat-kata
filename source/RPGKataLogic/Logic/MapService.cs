@@ -138,6 +138,37 @@ public class MapService : IMapService
         return beingsInRange;
     }
 
+    public void DisplayMap()
+    {
+        for(int y = _height - 1; y >= 0; y--)
+        {
+            for(int x = 0; x < _width; x++)
+                Console.Write(DisplayGround(x, y));
+            Console.Write(Environment.NewLine);
+        }
+    }
+
+    private char DisplayGround(int x, int y)
+    {
+        var ground = _map[x, y];
+
+        if (ground.Beings.Count > 0)
+        {
+            if (ground.Beings.Count > 1)
+                return 'O';
+            else if (ground.Beings.First().GetType() == typeof(Fighter))
+                return 'F';
+            else if (ground.Beings.First().GetType() == typeof(Character))
+                return 'C';
+            else if (ground.Beings.First().GetType() == typeof(Tree))
+                return 'T';
+            else if (ground.Beings.First().GetType() == typeof(Stone))
+                return 'S';
+        }
+
+        return ' ';
+    }
+
     private bool IsOutsideTheMap(int x, int y)
     {
         return x < 0 || x >= _width || y < 0 || y >= _height;

@@ -11,5 +11,6 @@ namespace RPGKataLogic.Logic
         Ground? GetBeingLocation(Being being);
         double CalculateDistance(Being first, Being second);
         List<Being> GetBeingsInRange(Being being, int range, bool skipItself = true, bool skipOver = true);
+        void DisplayMap();
     }
 }
