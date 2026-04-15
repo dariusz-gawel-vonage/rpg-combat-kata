@@ -41,7 +41,7 @@ public class MapService : IMapService
     public void RemoveBeingFromMap(Being being)
     {
         _beingsLocationLookup.TryGetValue(being, out var ground);
-        if (ground == null)
+        if (ground == null || ground.Beings.Contains(being) == false)
             throw new InvalidOperationException("There was no character at the map, while trying to remove it.");
 
         _beingsLocationLookup[being].Beings.Remove(being);
