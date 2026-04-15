@@ -20,6 +20,24 @@ public class MapService : IMapService
         _charactersLocationLookup = new Dictionary<Being, Ground>();
     }
 
+    public void SetCharacterLocation(Being character, Ground desiredGround)
+    {
+        if (_charactersLocationLookup.TryGetValue(character, out var currentGround))
+            _charactersLocationLookup.Add(character, null);
+
+        _charactersLocationLookup[character] = desiredGround;
+    }
+
+    public void RemoveCharacterFromMap(Being character)
+    {
+        _charactersLocationLookup.TryGetValue(character, out var ground);
+        if (ground == null)
+            throw new InvalidOperationException("There was no character at the map, while trying to remove it.");
+
+        _charactersLocationLookup[character].Beings.Remove(character);
+        _charactersLocationLookup.Remove(character);
+    }
+
     public Ground? GetCharacterLocation(Being character)
     {
         if (_charactersLocationLookup.TryGetValue(character, out var ground))

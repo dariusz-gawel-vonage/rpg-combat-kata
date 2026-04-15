@@ -24,7 +24,10 @@ public class CombatService : ICombatService
         damage = CalculateFinalDamage(attacker, target, damage);
 
         if (target.Health <= damage)
+        {
             target.SetOver();
+            _mapService.RemoveCharacterFromMap(target);
+        }
         else
         {
             target.Health -= damage;
