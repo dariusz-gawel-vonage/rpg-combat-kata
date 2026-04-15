@@ -18,4 +18,6 @@ public class Item : Being
     }
 
     public override bool IsOver() => Condition == ConditionState.Destroyed;
+
+    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Health}, CONDITION: {Condition}";
 }

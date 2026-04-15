@@ -20,4 +20,6 @@ public class Fighter : Character
             _ => throw new Exception("Unknown fighter type")
         };
     }
+
+    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Health}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}, FIGHTER TYPE: {FighterType}";
 }

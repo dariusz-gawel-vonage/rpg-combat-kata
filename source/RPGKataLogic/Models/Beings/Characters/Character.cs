@@ -37,5 +37,6 @@ public class Character : Being
             Level++;
         }
     }
+
+    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Health}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}";
 }
-    

@@ -17,4 +17,5 @@ public abstract class Being
 
     public abstract void SetOver();
     public abstract bool IsOver();
+    public abstract override string ToString();
 }
