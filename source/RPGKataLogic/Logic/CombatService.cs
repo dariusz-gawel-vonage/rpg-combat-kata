@@ -41,10 +41,6 @@ public class CombatService : ICombatService
         if (CanHeal(healer, target))
             return;
 
-        if (target.LiveState == LiveState.Dead ||
-            healer != target)
-            return;
-
         target.Health = Math.Min(target.Health + healAmount, 1000);
     }
 
