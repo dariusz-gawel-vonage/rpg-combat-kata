@@ -1,4 +1,6 @@
-﻿namespace RPGKataLogic.Models;
+﻿using RPGKataLogic.Enums;
+
+namespace RPGKataLogic.Models;
 
 public class Fighter : Character
 {

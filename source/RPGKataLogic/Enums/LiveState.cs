@@ -1,4 +1,4 @@
-﻿namespace RPGKataLogic.Models;
+﻿namespace RPGKataLogic.Enums;
 
 public enum LiveState
 {

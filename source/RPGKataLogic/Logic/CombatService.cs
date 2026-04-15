@@ -1,8 +1,9 @@
-﻿using RPGKataLogic.Models;
+﻿using RPGKataLogic.Enums;
+using RPGKataLogic.Models;
 
 namespace RPGKataLogic.Logic;
 
-public class CombatService
+public class CombatService : ICombatService
 {
     private IMapService _mapService;
     private IFactionService _factionService;
@@ -13,7 +14,7 @@ public class CombatService
         _factionService = factionService;
     }
 
-    public void Damage(Fighter attacker, Character target, int damage)
+    public void Damage(Fighter attacker, Being target, int damage)
     {
         var distance = CalculateDistance(attacker, target);
 
@@ -23,10 +24,7 @@ public class CombatService
         damage = CalculateFinalDamage(attacker, target, damage);
 
         if (target.Health <= damage)
-        {
-            target.Health = 0;
-            target.LiveState = LiveState.Dead;
-        }
+            target.SetOver();
         else
         {
             target.Health -= damage;
@@ -38,45 +36,52 @@ public class CombatService
         if (CanHeal(healer, target))
             return;
 
-        if (target.LiveState == LiveState.Dead || 
+        if (target.LiveState == LiveState.Dead ||
             healer != target)
             return;
 
         target.Health = Math.Min(target.Health + healAmount, 1000);
     }
 
-    private static int CalculateFinalDamage(Character attacker, Character target, int damage)
+
+
+    private static int CalculateFinalDamage(Fighter attacker, Being target, int damage)
     {
-        if (target.Level >= attacker.Level + 5)
-            damage = (int)(damage * 0.5);
-        else if (target.Level >= attacker.Level - 5)
-            damage = (int)(damage * 1.5);
+        if (target is Character character)
+        {
+            if (character.Level >= attacker.Level + 5)
+                damage = (int)(damage * 0.5);
+            else if (character.Level >= attacker.Level - 5)
+                damage = (int)(damage * 1.5);
+            return damage;
+        }
+
         return damage;
     }
 
-    private double CalculateDistance(Character attacker, Character target)
+    private double CalculateDistance(Being attacker, Being target)
     {
         var attackerDistance = _mapService.GetCharacterLocation(attacker);
         var targetDistance = _mapService.GetCharacterLocation(target);
-
-        if(attackerDistance == null || targetDistance == null)
+        
+        if (attackerDistance == null || targetDistance == null)
             throw new Exception("Both characters must be on the map to calculate distance.");
 
         return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
     }
 
-    private bool CanDamage(Fighter attacker, Character target, double distance)
+    private bool CanDamage(Fighter attacker, Being target, double distance)
     {
-        if (target.LiveState == LiveState.Dead)
+        if (target.IsOver())
             return false;
 
         if (attacker == target)
             return false;
-        
-        if(distance > attacker.GetAttackRange())
+
+        if (distance > attacker.GetAttackRange())
             return false;
 
-        if (_factionService.AreAllies(attacker, target))
+        if (target is Character character && _factionService.AreAllies(attacker, character))
             return false;
 
         return true;

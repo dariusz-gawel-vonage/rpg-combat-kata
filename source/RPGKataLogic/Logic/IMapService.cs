@@ -4,6 +4,6 @@ namespace RPGKataLogic.Logic
 {
     public interface IMapService
     {
-        Ground GetCharacterLocation(Character character);
+        Ground? GetCharacterLocation(Being being);
     }
 }
