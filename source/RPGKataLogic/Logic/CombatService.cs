@@ -32,6 +32,8 @@ public class CombatService : ICombatService
         {
             target.Health -= damage;
         }
+
+        attacker.GainExperience(damage);
     }
 
     public void Heal(Character healer, Character target, int healAmount)

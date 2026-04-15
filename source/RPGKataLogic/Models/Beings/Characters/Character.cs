@@ -4,13 +4,15 @@ namespace RPGKataLogic.Models;
 
 public class Character : Being
 {
+    public int Experience { get; set; }
     public int Level { get; set; }
     public LiveState LiveState { get; set; }
 
     public Character() : base(1000)
     {
-        LiveState = LiveState.Alive;
+        Experience = 0;
         Level = 1;
+        LiveState = LiveState.Alive;
     }
 
     public Character(int health, int level) : base(health)
@@ -26,5 +28,14 @@ public class Character : Being
     }
 
     public override bool IsOver() => LiveState == LiveState.Dead;
+
+    public void GainExperience(int experience)
+    {
+        Experience += experience;
+        while (Experience % 1000 == 0)
+        {
+            Level++;
+        }
+    }
 }
     

@@ -13,6 +13,7 @@
 ## To be done:
 - Implement more interfaces.
 - Try to use Structs and Records where possible.
+- Change access modifiers of classes that does need to be public.
 
 - (?) Add `Id` to `Character`.
 - (?) Remove not necessary functions i.e. from `FactionService`.
