@@ -18,7 +18,7 @@ public class CombatService : ICombatService
     {
         var distance = CalculateDistance(attacker, target);
 
-        if (CanDamage(attacker, target, distance))
+        if (CanDamage(attacker, target, distance) == false)
             return;
 
         damage = CalculateFinalDamage(attacker, target, damage);
