@@ -5,7 +5,7 @@ namespace RPGKataLogic.Logic;
 public class MapService : IMapService
 {
     private Ground[,] _map;
-    private Dictionary<Being, Ground> _charactersLocationLookup;
+    private Dictionary<Being, Ground> _beingsLocationLookup;
 
     public MapService(int width, int height)
     {
@@ -17,30 +17,30 @@ public class MapService : IMapService
                 _map[i, j] = new Ground { X = i, Y = j, Beings = new List<Being>() };
             }
         }
-        _charactersLocationLookup = new Dictionary<Being, Ground>();
+        _beingsLocationLookup = new Dictionary<Being, Ground>();
     }
 
-    public void SetCharacterLocation(Being character, Ground desiredGround)
+    public void SetBeingLocation(Being being, Ground desiredGround)
     {
-        if (_charactersLocationLookup.TryGetValue(character, out var currentGround))
-            _charactersLocationLookup.Add(character, null);
+        if (_beingsLocationLookup.TryGetValue(being, out var currentGround))
+            _beingsLocationLookup.Add(being, null);
 
-        _charactersLocationLookup[character] = desiredGround;
+        _beingsLocationLookup[being] = desiredGround;
     }
 
-    public void RemoveCharacterFromMap(Being character)
+    public void RemoveBeingFromMap(Being being)
     {
-        _charactersLocationLookup.TryGetValue(character, out var ground);
+        _beingsLocationLookup.TryGetValue(being, out var ground);
         if (ground == null)
             throw new InvalidOperationException("There was no character at the map, while trying to remove it.");
 
-        _charactersLocationLookup[character].Beings.Remove(character);
-        _charactersLocationLookup.Remove(character);
+        _beingsLocationLookup[being].Beings.Remove(being);
+        _beingsLocationLookup.Remove(being);
     }
 
-    public Ground? GetCharacterLocation(Being character)
+    public Ground? GetBeingLocation(Being being)
     {
-        if (_charactersLocationLookup.TryGetValue(character, out var ground))
+        if (_beingsLocationLookup.TryGetValue(being, out var ground))
             return ground;
 
         return null;

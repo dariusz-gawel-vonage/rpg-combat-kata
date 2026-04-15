@@ -26,7 +26,7 @@ public class CombatService : ICombatService
         if (target.Health <= damage)
         {
             target.SetOver();
-            _mapService.RemoveCharacterFromMap(target);
+            _mapService.RemoveBeingFromMap(target);
         }
         else
         {
@@ -64,8 +64,8 @@ public class CombatService : ICombatService
 
     private double CalculateDistance(Being attacker, Being target)
     {
-        var attackerDistance = _mapService.GetCharacterLocation(attacker);
-        var targetDistance = _mapService.GetCharacterLocation(target);
+        var attackerDistance = _mapService.GetBeingLocation(attacker);
+        var targetDistance = _mapService.GetBeingLocation(target);
         
         if (attackerDistance == null || targetDistance == null)
             throw new Exception("Both characters must be on the map to calculate distance.");
