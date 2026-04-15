@@ -16,7 +16,7 @@ public class CombatService : ICombatService
 
     public void Damage(Fighter attacker, Being target, int damage)
     {
-        var distance = CalculateDistance(attacker, target);
+        var distance = _mapService.CalculateDistance(attacker, target);
 
         if (CanDamage(attacker, target, distance) == false)
             return;
@@ -62,17 +62,6 @@ public class CombatService : ICombatService
         }
 
         return damage;
-    }
-
-    private double CalculateDistance(Being attacker, Being target)
-    {
-        var attackerDistance = _mapService.GetBeingLocation(attacker);
-        var targetDistance = _mapService.GetBeingLocation(target);
-        
-        if (attackerDistance == null || targetDistance == null)
-            throw new Exception("Both characters must be on the map to calculate distance.");
-
-        return Math.Sqrt(Math.Pow(targetDistance.X - attackerDistance.X, 2) + Math.Pow(targetDistance.Y - attackerDistance.Y, 2));
     }
 
     private bool CanDamage(Fighter attacker, Being target, double distance)

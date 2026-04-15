@@ -26,10 +26,16 @@ public class MapService : IMapService
 
     public void SetBeingLocation(Being being, Ground desiredGround)
     {
-        if (_beingsLocationLookup.TryGetValue(being, out var currentGround))
+        var isAlreadyAtMap = _beingsLocationLookup.TryGetValue(being, out var currentGround);
+
+        if(isAlreadyAtMap == false)
             _beingsLocationLookup.Add(being, null);
+        else
+            _map[currentGround.X, currentGround.Y].Beings.Remove(being);
 
         _beingsLocationLookup[being] = desiredGround;
+        _map[desiredGround.X, desiredGround.Y].Beings.Add(being);
+
     }
 
     public void RemoveBeingFromMap(Being being)
@@ -40,6 +46,8 @@ public class MapService : IMapService
 
         _beingsLocationLookup[being].Beings.Remove(being);
         _beingsLocationLookup.Remove(being);
+
+        _map[ground.X, ground.Y].Beings.Remove(being);
     }
 
     public Ground? GetBeingLocation(Being being)
@@ -81,5 +89,54 @@ public class MapService : IMapService
                     MoveBeingRandomWay(being);
                 break;
         }
+    }
+
+    public double CalculateDistance(Being first, Being second)
+    {
+        var firstDistance = GetBeingLocation(first);
+        var secondDistance = GetBeingLocation(second);
+
+        if (firstDistance == null || secondDistance == null)
+            throw new Exception("Both characters must be on the map to calculate distance.");
+
+        return Math.Sqrt(Math.Pow(secondDistance.X - firstDistance.X, 2) + Math.Pow(secondDistance.Y - firstDistance.Y, 2));
+    }
+
+    public List<Being> GetBeingsInRange(Being being, int range, bool skipItself = true, bool skipOver = true)
+    {
+        var beingsInRange = new List<Being>();
+
+        var location = GetBeingLocation(being);
+        if (location == null) 
+            return beingsInRange;
+
+        for (int x = location.X - range; x <= location.X + range; x++)
+        {
+            for (int y = location.Y - range; y <= location.Y + range; y++)
+            {
+                if (IsOutsideTheMap(x, y) || IsOutsideTheRange(location, (x,y), range))
+                    continue;
+
+                var beingsAtLocation = _map[x, y].Beings;
+                if(skipOver)
+                    beingsAtLocation = beingsAtLocation.Where(b => !b.IsOver()).ToList();
+                beingsInRange.AddRange(beingsAtLocation);
+            }
+        }
+
+        if(skipItself)
+            beingsInRange.Remove(being);
+
+        return beingsInRange;
+    }
+
+    private bool IsOutsideTheMap(int x, int y)
+    {
+        return x < 0 || x >= _width || y < 0 || y >= _height;
+    }
+
+    private bool IsOutsideTheRange(Ground location, (int x, int y) target, int range)
+    {
+        return Math.Sqrt(Math.Pow(target.x - location.X, 2) + Math.Pow(target.y - location.Y, 2)) > range;
     }
 }
