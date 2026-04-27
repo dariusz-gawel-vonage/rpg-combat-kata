@@ -7,6 +7,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGKataLogic", "RPGKataLogi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGKataSimulation", "..\RPGKataSimulation\RPGKataSimulation.csproj", "{D179D0EE-360A-4E3D-B1FE-A90AD8A52843}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instructions", "instructions", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\instructions\1.png = ..\..\instructions\1.png
+		..\..\instructions\2.png = ..\..\instructions\2.png
+		..\..\instructions\3.png = ..\..\instructions\3.png
+		..\..\instructions\4.png = ..\..\instructions\4.png
+		..\..\instructions\5.png = ..\..\instructions\5.png
+		..\..\instructions\6.png = ..\..\instructions\6.png
+		..\..\instructions\7.png = ..\..\instructions\7.png
+		..\..\instructions\readme-instructions.md = ..\..\instructions\readme-instructions.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "retrospection", "retrospection", "{F9C36F0D-C5DB-459A-9504-F0E078C9413A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\retro\claude opus 4.6 review.md = ..\..\retro\claude opus 4.6 review.md
+		..\..\retro\readme-retro.md = ..\..\retro\readme-retro.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
