@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "retrospection", "retrospection", "{F9C36F0D-C5DB-459A-9504-F0E078C9413A}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\retro\claude opus 4.6 review.md = ..\..\retro\claude opus 4.6 review.md
+		faction location (object vs inside character) dilemma.md = faction location (object vs inside character) dilemma.md
 		..\..\retro\readme-retro.md = ..\..\retro\readme-retro.md
 	EndProjectSection
 EndProject
