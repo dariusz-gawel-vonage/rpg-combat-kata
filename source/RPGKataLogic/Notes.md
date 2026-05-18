@@ -1,4 +1,4 @@
-## Assumptions:
+﻿## Assumptions:
 - Map is rectangle.
 - 1 unit in the map is 1 meter.
 - Healer could be only a `character`, not the item (but in theory I can imagine a magic tree that is healing nearby characters etc.).
@@ -14,6 +14,7 @@
 ## To be done:
 
 ### Logic
+1. If the attacker kills the target and SetOver() sets health to 0, the attacker gains experience for the full damage amount, not the actual damage dealt.
 1. Verify `CalculateDistance` calculations.
 1. Make `MapService` able to set location, populate things etc.
 1. (?) Logic for not having 2 beings at the same ground.

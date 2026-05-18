@@ -23,15 +23,9 @@ public class CombatService : ICombatService
 
         damage = CalculateFinalDamage(attacker, target, damage);
 
-        if (target.Health <= damage)
-        {
-            target.SetOver();
+        target.TakeDamage(damage);
+        if(target.IsOver())
             _mapService.RemoveBeingFromMap(target);
-        }
-        else
-        {
-            target.Health -= damage;
-        }
 
         attacker.GainExperience(damage);
     }
@@ -41,21 +35,13 @@ public class CombatService : ICombatService
         if (CanHeal(healer, target) == false)
             return;
 
-        target.Health = Math.Min(target.Health + healAmount, 1000);
+        target.TakeHeal(healAmount);
     }
-
-
 
     private static int CalculateFinalDamage(Fighter attacker, Being target, int damage)
     {
         if (target is Character character)
-        {
-            if (character.Level >= attacker.Level + 5)
-                damage = (int)(damage * 0.5);
-            else if (character.Level >= attacker.Level - 5)
-                damage = (int)(damage * 1.5);
-            return damage;
-        }
+            return character.CalculateIncomingDamage(damage, attacker.Level);
 
         return damage;
     }
@@ -82,7 +68,7 @@ public class CombatService : ICombatService
 
     private bool CanHeal(Character healer, Character target)
     {
-        if (target.LiveState == LiveState.Dead)
+        if (target.IsOver())
             return false;
 
         if (_factionService.AreAllies(healer, target) == false)

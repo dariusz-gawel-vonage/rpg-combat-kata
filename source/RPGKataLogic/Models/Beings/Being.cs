@@ -18,4 +18,12 @@ public abstract class Being
     public abstract void SetOver();
     public abstract bool IsOver();
     public abstract override string ToString();
+
+    internal void TakeDamage(int damage)
+    {
+        if (Health <= damage)
+            SetOver();
+        else
+            Health -= damage;
+    }
 }

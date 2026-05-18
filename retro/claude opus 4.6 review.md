@@ -21,7 +21,7 @@ private bool CanHeal(...) { ... }
 if (CanHeal(healer, target)) return; // exits when "can heal" is true — inverted!
 ```
 
-### 2. Anemic Domain Model — Logic Belongs in Entities, Not Services
+### [CORRECTED] 2. Anemic Domain Model — Logic Belongs in Entities, Not Services
 `CombatService` directly mutates `Health`, calls `SetOver()`, and calculates damage modifiers by inspecting character levels. This violates **Tell, Don't Ask**. Characters should know how to take damage and heal themselves:
 
 ```csharp

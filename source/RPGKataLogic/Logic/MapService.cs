@@ -1,4 +1,5 @@
 ﻿using RPGKataLogic.Models;
+using System.Collections.ObjectModel;
 
 namespace RPGKataLogic.Logic;
 
@@ -18,7 +19,7 @@ public class MapService : IMapService
         {
             for (int j = 0; j < _height; j++)
             {
-                _map[i, j] = new Ground { X = i, Y = j, Beings = new List<Being>() };
+                _map[i, j] = new Ground { X = i, Y = j };
             }
         }
         _beingsLocationLookup = new Dictionary<Being, Ground>();
@@ -31,22 +32,22 @@ public class MapService : IMapService
         if(isAlreadyAtMap == false)
             _beingsLocationLookup.Add(being, null);
         else
-            _map[currentGround.X, currentGround.Y].Beings.Remove(being);
+            _map[currentGround.X, currentGround.Y].RemoveBeing(being);
 
         _beingsLocationLookup[being] = desiredGround;
-        _map[desiredGround.X, desiredGround.Y].Beings.Add(being);
+        _map[desiredGround.X, desiredGround.Y].AddBeing(being);
     }
 
     public void RemoveBeingFromMap(Being being)
     {
         _beingsLocationLookup.TryGetValue(being, out var ground);
-        if (ground == null || ground.Beings?.Contains(being) == false)
+        if (ground == null || ground.GetBeings(false)?.Contains(being) == false)
             throw new InvalidOperationException("There was no character at the map, while trying to remove it.");
 
-        _beingsLocationLookup[being].Beings.Remove(being);
+        _beingsLocationLookup[being].RemoveBeing(being);
         _beingsLocationLookup.Remove(being);
 
-        _map[ground.X, ground.Y].Beings.Remove(being);
+        _map[ground.X, ground.Y].RemoveBeing(being);
     }
 
     public Ground? GetGround(int x, int y)
@@ -125,9 +126,7 @@ public class MapService : IMapService
                 if (IsOutsideTheMap(x, y) || IsOutsideTheRange(location, (x,y), range))
                     continue;
 
-                var beingsAtLocation = _map[x, y].Beings;
-                if(skipOver)
-                    beingsAtLocation = beingsAtLocation.Where(b => !b.IsOver()).ToList();
+                ReadOnlyCollection<Being> beingsAtLocation = _map[x, y].GetBeings(skipOver);
                 beingsInRange.AddRange(beingsAtLocation);
             }
         }
@@ -151,18 +150,19 @@ public class MapService : IMapService
     private char DisplayGround(int x, int y)
     {
         var ground = _map[x, y];
+        var beings = ground.GetBeings();
 
-        if (ground.Beings.Count > 0)
+        if (beings.Count > 0)
         {
-            if (ground.Beings.Count > 1)
+            if (beings.Count > 1)
                 return 'O';
-            else if (ground.Beings.First().GetType() == typeof(Fighter))
+            else if (beings.First().GetType() == typeof(Fighter))
                 return 'F';
-            else if (ground.Beings.First().GetType() == typeof(Character))
+            else if (beings.First().GetType() == typeof(Character))
                 return 'C';
-            else if (ground.Beings.First().GetType() == typeof(Tree))
+            else if (beings.First().GetType() == typeof(Tree))
                 return 'T';
-            else if (ground.Beings.First().GetType() == typeof(Stone))
+            else if (beings.First().GetType() == typeof(Stone))
                 return 'S';
         }
 

@@ -25,7 +25,7 @@ public class FactionService : IFactionService
         if (faction == null)
             throw new InvalidOperationException("Faction not found.");
 
-        faction.Members.Clear();
+        faction.ClearMembers();
         _factions.Remove(faction);
     }
 
@@ -41,8 +41,6 @@ public class FactionService : IFactionService
         faction.Name = newName;
     }
 
-
-
     public void JoinFaction(string factionName, Character character)
     {
         var faction = _factions.FirstOrDefault(f => f.Name.Equals(factionName, StringComparison.OrdinalIgnoreCase));
@@ -54,29 +52,21 @@ public class FactionService : IFactionService
 
     public void JoinFaction(Faction faction, Character character)
     {
-        if (faction.Members.Contains(character))
-            throw new InvalidOperationException("Character is already a member of this faction.");
-
-        faction.Members.Add(character);
+        faction.AddMember(character);
     }
 
     public void LeaveFaction(Faction faction, Character character)
     {
-        if (faction.Members.Contains(character) == false)
-            throw new InvalidOperationException("Character is not in a faction.");
-
-        faction.Members.Remove(character);
+        faction.RemoveMember(character);
     }
-
-
 
     public bool AreAllies(Character first, Character second)
     {
-        return _factions.Any(f => f.Members.Contains(first) && f.Members.Contains(second));
+        return _factions.Any(f => f.HasMember(first) && f.HasMember(second));
     }
 
     public List<Faction> GetAllFactionsOfCharacter(Character character)
     {
-        return _factions.Where(f => f.Members.Contains(character)).ToList();
+        return _factions.Where(f => f.HasMember(character)).ToList();
     }
 }
