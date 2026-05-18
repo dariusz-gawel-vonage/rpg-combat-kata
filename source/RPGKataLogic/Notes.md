@@ -12,18 +12,17 @@
 	Replace `if (attackerDistance == null || targetDistance == null)` with `if (attackerDistance.HasValue == false || targetDistance.HasValue == false)`.
 
 ## To be done:
-- Logic for not having 2 beings at the same ground.
-- (?) Maybe only characters should be able to move.
 
-- Implement more interfaces.
-- Try to use Structs and Records where possible.
-- Change access modifiers of classes that does need to be public.
+### Logic
+1. Verify `CalculateDistance` calculations.
+1. Make `MapService` able to set location, populate things etc.
+1. (?) Logic for not having 2 beings at the same ground.
+1. (?) Maybe only characters should be able to move.
 
-- (?) Add `Id` to `Character`.
-- (?) Remove not necessary functions i.e. from `FactionService`.
-
-- Make `MapService` able to set location, populate things etc.
-- Make a simulation in console.
-
-- Verify `CalculateDistance` calculations.
-- Add tests.
+### Coding
+1. Implement more interfaces.
+1. Try to use Structs and Records where possible.
+1. Verify access modifiers and correct if needed.
+1. Add tests.
+1. (?) Add `Id` to `Character`.
+1. (?) Remove not necessary functions i.e. in from `FactionService`.

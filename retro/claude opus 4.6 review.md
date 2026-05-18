@@ -1,12 +1,16 @@
+## Prompt
+
+### My prompt:
 dariusz-gawel-vonage: This is .NET solution that contains my solution of Coding Kata from my Company. In the `instructions` directory you have some images that contains .pngs with requirements step by step. I was trying to do that step by step, so I would learn how to model architectural design. You might see commit by commit in the RPGKataLogic project. Then I created another project within a solution - RPGKataSimulation. Your goal now is to point me my mistakes in terms of architectural design, object oriented programming, clean code etc. Start with major ones, but try to spot all things. So I can learn and become better programmer, and architect.
 
-GitHub Copilot: Here's my review, from most critical to minor issues:
+### Model: 
+Claude Opus 4.6 (most probably)
 
 ---
 
 ## 🔴 Major Issues
 
-### 1. Broken Heal Logic (Bug)
+### [CORRECTED] 1. Broken Heal Logic (Bug)
 `CanHeal` returns `true` when healing should be **blocked**, but `Heal` treats the return as "cannot heal". Worse, the conditions are contradictory — it requires the healer and target to be allies AND the same person (`healer != target` returns true to block). This means **healing never works correctly**.
 
 ```csharp

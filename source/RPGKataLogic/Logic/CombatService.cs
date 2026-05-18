@@ -38,7 +38,7 @@ public class CombatService : ICombatService
 
     public void Heal(Character healer, Character target, int healAmount)
     {
-        if (CanHeal(healer, target))
+        if (CanHeal(healer, target) == false)
             return;
 
         target.Health = Math.Min(target.Health + healAmount, 1000);
@@ -88,7 +88,7 @@ public class CombatService : ICombatService
         if (_factionService.AreAllies(healer, target) == false)
             return false;
 
-        if (healer != target)
+        if (healer == target)
             return false;
 
         return true;
