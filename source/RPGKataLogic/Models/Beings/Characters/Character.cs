@@ -6,29 +6,18 @@ public class Character : WorldObject
 {
     public int Experience { get; private set; }
     public int Level { get; private set; }
-    public LiveState LiveState { get; private set; }
 
     public Character() : base(1000)
     {
         Experience = 0;
         Level = 1;
-        LiveState = LiveState.Alive;
     }
 
     public Character(int health, int level) : base(health)
     {
         Experience = 0;
         Level = level;
-        LiveState = LiveState.Alive;
     }
-
-    public override void SetOver()
-    {
-        Durability = 0;
-        LiveState = LiveState.Dead;
-    }
-
-    public override bool IsOver() => LiveState == LiveState.Dead;
 
     public void GainExperience(int experience)
     {
@@ -36,7 +25,7 @@ public class Character : WorldObject
         Level = (int)Math.Floor(Math.Sqrt(Experience / 1000.0));
     }
 
-    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Durability}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}";
+    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Durability}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {State}";
 
     internal int CalculateIncomingDamage(int damage, int attackerLevel)
     {

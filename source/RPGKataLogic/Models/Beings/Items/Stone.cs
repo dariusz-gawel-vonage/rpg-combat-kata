@@ -6,5 +6,5 @@ public class Stone : Item
 
     public Stone(int health) : base(health) { }
 
-    public override string ToString() => $"STONE ID: {Id} HEALTH: {Durability}, CONDITION: {Condition}";
+    public override string ToString() => $"STONE ID: {Id} HEALTH: {Durability}, STATE: {State}";
 }

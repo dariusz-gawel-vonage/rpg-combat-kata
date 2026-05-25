@@ -21,5 +21,5 @@ public class Fighter : Character
         };
     }
 
-    public override string ToString() => $"FIGHTER ID: {Id} HEALTH: {Durability}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}, FIGHTER TYPE: {FighterType}";
+    public override string ToString() => $"FIGHTER ID: {Id} HEALTH: {Durability}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {State}, FIGHTER TYPE: {FighterType}";
 }
