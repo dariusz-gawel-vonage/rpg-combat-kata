@@ -2,8 +2,8 @@
 
 public class Faction
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
+    public Guid Id { get; private set; }
+    public string Name { get; private set; }
     private List<Character> _members;
 
     public IReadOnlyList<Character> Members => _members.AsReadOnly();
@@ -13,6 +13,11 @@ public class Faction
         Id = Guid.NewGuid();
         Name = name;
         _members = new List<Character>();
+    }
+
+    public void Rename(string newName)
+    {
+        Name = newName;
     }
 
     public void AddMember(Character character)

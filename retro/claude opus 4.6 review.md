@@ -31,7 +31,7 @@ if (CanHeal(healer, target)) return; // exits when "can heal" is true — invert
 
 All your models are essentially data bags with public setters — this is the **Anemic Domain Model** anti-pattern. `Being`, `Character`, `Fighter` should encapsulate their own invariants.
 
-### 3. All Properties Have Public Setters — No Encapsulation
+### [CORRECTED] 3. All Properties Have Public Setters — No Encapsulation
 `Health`, `Level`, `Experience`, `LiveState`, `Condition` are all `{ get; set; }`. Anyone can set `Health = -999` or `LiveState = Dead` while `Health = 1000`. Domain objects should protect their invariants with private setters and behavior methods.
 
 ### 4. Naming: "Being" for the Base Class of Characters and Items

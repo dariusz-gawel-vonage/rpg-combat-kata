@@ -2,8 +2,8 @@
 
 public abstract class Being
 {
-    public Guid Id { get; set; }
-    public int Health { get; set; }
+    public Guid Id { get; private set; }
+    public int Health { get; protected set; }
 
     public Being()
     {

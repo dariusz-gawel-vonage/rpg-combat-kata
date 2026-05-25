@@ -38,7 +38,7 @@ public class FactionService : IFactionService
         if (_factions.Any(f => f.Name.Equals(newName, StringComparison.OrdinalIgnoreCase)))
             throw new InvalidOperationException("Faction with the same name already exists.");
 
-        faction.Name = newName;
+        faction.Rename(newName);
     }
 
     public void JoinFaction(string factionName, Character character)

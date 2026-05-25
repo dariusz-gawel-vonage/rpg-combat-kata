@@ -4,9 +4,9 @@ namespace RPGKataLogic.Models;
 
 public class Character : Being
 {
-    public int Experience { get; set; }
-    public int Level { get; set; }
-    public LiveState LiveState { get; set; }
+    public int Experience { get; private set; }
+    public int Level { get; private set; }
+    public LiveState LiveState { get; private set; }
 
     public Character() : base(1000)
     {

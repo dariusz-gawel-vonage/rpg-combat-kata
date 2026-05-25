@@ -4,7 +4,7 @@ namespace RPGKataLogic.Models;
 
 public class Fighter : Character
 {
-    public FighterType FighterType { get; set; }
+    public FighterType FighterType { get; private set; }
 
     public Fighter(int health, int level, FighterType fighterType) : base(health, level)
     {

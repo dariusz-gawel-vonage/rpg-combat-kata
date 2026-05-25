@@ -4,7 +4,7 @@ namespace RPGKataLogic.Models;
 
 public class Item : Being
 {
-    public ConditionState Condition { get; set; }
+    public ConditionState Condition { get; private set; }
 
     public Item(int health) : base(health)
     {
