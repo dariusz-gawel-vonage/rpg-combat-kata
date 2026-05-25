@@ -34,7 +34,7 @@ All your models are essentially data bags with public setters — this is the **
 ### [CORRECTED] 3. All Properties Have Public Setters — No Encapsulation
 `Health`, `Level`, `Experience`, `LiveState`, `Condition` are all `{ get; set; }`. Anyone can set `Health = -999` or `LiveState = Dead` while `Health = 1000`. Domain objects should protect their invariants with private setters and behavior methods.
 
-### 4. Naming: "Being" for the Base Class of Characters and Items
+### [CORRECTED]  4. Naming: "Being" for the Base Class of Characters and Items
 A `Tree` is not a "Being". A `Stone` is not a "Being". The abstraction is forced. Something like `Entity` or `MapObject` would be more accurate. The `Health` property on a `Stone` is also semantically odd — consider `Durability` or `HitPoints` for items.
 
 ### 5. `ConditionState.Alive` for Items

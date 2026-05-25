@@ -4,13 +4,13 @@ namespace RPGKataLogic.Logic
 {
     public interface IMapService
     {
-        void SetBeingLocation(Being being, Ground desiredGround);
-        void RemoveBeingFromMap(Being being);
-        void MoveBeingRandomWay(Being being);
+        void SetBeingLocation(WorldObject being, Ground desiredGround);
+        void RemoveBeingFromMap(WorldObject being);
+        void MoveBeingRandomWay(WorldObject being);
         Ground? GetGround(int x, int y);
-        Ground? GetBeingLocation(Being being);
-        double CalculateDistance(Being first, Being second);
-        List<Being> GetBeingsInRange(Being being, int range, bool skipItself = true, bool skipOver = true);
+        Ground? GetBeingLocation(WorldObject being);
+        double CalculateDistance(WorldObject first, WorldObject second);
+        List<WorldObject> GetBeingsInRange(WorldObject being, int range, bool skipItself = true, bool skipOver = true);
         void DisplayMap();
     }
 }

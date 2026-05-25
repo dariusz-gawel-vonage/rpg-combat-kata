@@ -9,7 +9,7 @@ var factionService = new FactionService();
 var mapService = new MapService(mapWidth, mapHeight);
 var combatService = new CombatService(mapService, factionService);
 
-var beings = new List<Being>();
+var beings = new List<WorldObject>();
 for(int i = 0; i < 50; i++)
     CreateBeing(mapHeight, mapWidth, random, mapService, beings);
 
@@ -28,9 +28,9 @@ while (true)
     round++;
 }
 
-static void CreateBeing(int mapHeight, int mapWidth, Random random, MapService mapService, List<Being> beings)
+static void CreateBeing(int mapHeight, int mapWidth, Random random, MapService mapService, List<WorldObject> beings)
 {
-    Being being = null;
+    WorldObject being = null;
     switch (random.Next(4))
     {
         case 0:
@@ -54,13 +54,13 @@ static void CreateBeing(int mapHeight, int mapWidth, Random random, MapService m
     mapService.SetBeingLocation(being, desiredGround);
 }
 
-static void PlayRound(Random random, MapService mapService, CombatService combatService, List<Being> beingsOnMap)
+static void PlayRound(Random random, MapService mapService, CombatService combatService, List<WorldObject> beingsOnMap)
 {
     foreach (var being in beingsOnMap)
     {
         try
         {
-            if (being.Health <= 0)
+            if (being.Durability <= 0)
                 continue;
 
             if (being is Fighter fighter && random.Next(3) == 0)
@@ -93,7 +93,7 @@ static void PlayRound(Random random, MapService mapService, CombatService combat
     }
 }
 
-static void DisplayBeing(MapService mapService, Being being)
+static void DisplayBeing(MapService mapService, WorldObject being)
 {
     Console.Write($"{Environment.NewLine}");
     Console.Write(being.ToString());

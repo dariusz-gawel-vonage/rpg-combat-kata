@@ -8,7 +8,7 @@ public class MapService : IMapService
     private Ground[,] _map;
     private readonly int _width;
     private readonly int _height;
-    private Dictionary<Being, Ground> _beingsLocationLookup;
+    private Dictionary<WorldObject, Ground> _beingsLocationLookup;
 
     public MapService(int width, int height)
     {
@@ -22,10 +22,10 @@ public class MapService : IMapService
                 _map[i, j] = new Ground { X = i, Y = j };
             }
         }
-        _beingsLocationLookup = new Dictionary<Being, Ground>();
+        _beingsLocationLookup = new Dictionary<WorldObject, Ground>();
     }
 
-    public void SetBeingLocation(Being being, Ground desiredGround)
+    public void SetBeingLocation(WorldObject being, Ground desiredGround)
     {
         var isAlreadyAtMap = _beingsLocationLookup.TryGetValue(being, out var currentGround);
 
@@ -38,7 +38,7 @@ public class MapService : IMapService
         _map[desiredGround.X, desiredGround.Y].AddBeing(being);
     }
 
-    public void RemoveBeingFromMap(Being being)
+    public void RemoveBeingFromMap(WorldObject being)
     {
         _beingsLocationLookup.TryGetValue(being, out var ground);
         if (ground == null || ground.GetBeings(false)?.Contains(being) == false)
@@ -58,7 +58,7 @@ public class MapService : IMapService
         return _map[x, y];
     }
 
-    public Ground? GetBeingLocation(Being being)
+    public Ground? GetBeingLocation(WorldObject being)
     {
         if (_beingsLocationLookup.TryGetValue(being, out var ground))
             return ground;
@@ -66,7 +66,7 @@ public class MapService : IMapService
         return null;
     }
 
-    public void MoveBeingRandomWay(Being being)
+    public void MoveBeingRandomWay(WorldObject being)
     {
         var random = new Random();
         var currentGround = GetBeingLocation(being);
@@ -100,7 +100,7 @@ public class MapService : IMapService
         }
     }
 
-    public double CalculateDistance(Being first, Being second)
+    public double CalculateDistance(WorldObject first, WorldObject second)
     {
         var firstDistance = GetBeingLocation(first);
         var secondDistance = GetBeingLocation(second);
@@ -111,9 +111,9 @@ public class MapService : IMapService
         return Math.Sqrt(Math.Pow(secondDistance.X - firstDistance.X, 2) + Math.Pow(secondDistance.Y - firstDistance.Y, 2));
     }
 
-    public List<Being> GetBeingsInRange(Being being, int range, bool skipItself = true, bool skipOver = true)
+    public List<WorldObject> GetBeingsInRange(WorldObject being, int range, bool skipItself = true, bool skipOver = true)
     {
-        var beingsInRange = new List<Being>();
+        var beingsInRange = new List<WorldObject>();
 
         var location = GetBeingLocation(being);
         if (location == null) 
@@ -126,7 +126,7 @@ public class MapService : IMapService
                 if (IsOutsideTheMap(x, y) || IsOutsideTheRange(location, (x,y), range))
                     continue;
 
-                ReadOnlyCollection<Being> beingsAtLocation = _map[x, y].GetBeings(skipOver);
+                ReadOnlyCollection<WorldObject> beingsAtLocation = _map[x, y].GetBeings(skipOver);
                 beingsInRange.AddRange(beingsAtLocation);
             }
         }

@@ -2,7 +2,7 @@
 
 namespace RPGKataLogic.Models;
 
-public class Item : Being
+public class Item : WorldObject
 {
     public ConditionState Condition { get; private set; }
 
@@ -13,11 +13,11 @@ public class Item : Being
 
     public override void SetOver()
     {
-        Health = 0;
+        Durability = 0;
         Condition = ConditionState.Destroyed;
     }
 
     public override bool IsOver() => Condition == ConditionState.Destroyed;
 
-    public override string ToString() => $"ITEM ID: {Id} HEALTH: {Health}, CONDITION: {Condition}";
+    public override string ToString() => $"ITEM ID: {Id} HEALTH: {Durability}, CONDITION: {Condition}";
 }

@@ -14,7 +14,7 @@ public class CombatService : ICombatService
         _factionService = factionService;
     }
 
-    public void Damage(Fighter attacker, Being target, int damage)
+    public void Damage(Fighter attacker, WorldObject target, int damage)
     {
         var distance = _mapService.CalculateDistance(attacker, target);
 
@@ -38,7 +38,7 @@ public class CombatService : ICombatService
         target.TakeHeal(healAmount);
     }
 
-    private static int CalculateFinalDamage(Fighter attacker, Being target, int damage)
+    private static int CalculateFinalDamage(Fighter attacker, WorldObject target, int damage)
     {
         if (target is Character character)
             return character.CalculateIncomingDamage(damage, attacker.Level);
@@ -46,7 +46,7 @@ public class CombatService : ICombatService
         return damage;
     }
 
-    private bool CanDamage(Fighter attacker, Being target, double distance)
+    private bool CanDamage(Fighter attacker, WorldObject target, double distance)
     {
         if (attacker.IsOver() || target.IsOver())
             return false;

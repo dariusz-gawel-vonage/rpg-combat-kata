@@ -1,18 +1,18 @@
 ﻿namespace RPGKataLogic.Models;
 
-public abstract class Being
+public abstract class WorldObject
 {
     public Guid Id { get; private set; }
-    public int Health { get; protected set; }
+    public int Durability { get; protected set; }
 
-    public Being()
+    public WorldObject()
     {
         Id = Guid.NewGuid();
     }
 
-    public Being(int health) : this()
+    public WorldObject(int health) : this()
     {
-        Health = health;
+        Durability = health;
     }
 
     public abstract void SetOver();
@@ -21,9 +21,9 @@ public abstract class Being
 
     internal void TakeDamage(int damage)
     {
-        if (Health <= damage)
+        if (Durability <= damage)
             SetOver();
         else
-            Health -= damage;
+            Durability -= damage;
     }
 }

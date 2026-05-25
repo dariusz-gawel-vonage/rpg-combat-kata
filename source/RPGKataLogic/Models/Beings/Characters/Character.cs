@@ -2,7 +2,7 @@
 
 namespace RPGKataLogic.Models;
 
-public class Character : Being
+public class Character : WorldObject
 {
     public int Experience { get; private set; }
     public int Level { get; private set; }
@@ -24,7 +24,7 @@ public class Character : Being
 
     public override void SetOver()
     {
-        Health = 0;
+        Durability = 0;
         LiveState = LiveState.Dead;
     }
 
@@ -36,7 +36,7 @@ public class Character : Being
         Level = (int)Math.Floor(Math.Sqrt(Experience / 1000.0));
     }
 
-    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Health}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}";
+    public override string ToString() => $"CHARACTER ID: {Id} HEALTH: {Durability}, LEVEL: {Level}, EXPERIENCE: {Experience}, STATE: {LiveState}";
 
     internal int CalculateIncomingDamage(int damage, int attackerLevel)
     {
@@ -50,7 +50,7 @@ public class Character : Being
 
     internal void TakeHeal(int healAmount)
     {
-        Health = Math.Min(Health + healAmount, 1000);
+        Durability = Math.Min(Durability + healAmount, 1000);
     }
 
     internal void SetLevel(int level)
